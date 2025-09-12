@@ -1,0 +1,31 @@
+/*
+  Tag.css
+  Styles for the Tag component using design system variables.
+*/
+
+.ct-tag {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    border-radius: 999px;
+    background: var(--color-primary);
+    color: #fff;
+    margin: 0 var(--spacing-xs);
+}
+
+.ct-tag--primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.ct-tag--secondary {
+    background: var(--color-secondary);
+    color: var(--color-text);
+}
+
+.ct-tag--danger {
+    background: var(--color-danger);
+    color: #fff;
+}

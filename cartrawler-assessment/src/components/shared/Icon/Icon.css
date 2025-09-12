@@ -1,0 +1,8 @@
+/* Icon.css - Basic styling for SVG icons */
+.ct-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    vertical-align: middle;
+}
