@@ -5,23 +5,53 @@
 */
 
 :root {
+    /* CarTrawler Typography */
+    --font-family-base: "Open Sans", Arial, sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --font-size-title-xl: 3rem; /* 48px */
+    --line-height-title-xl: 4.063rem; /* 65px */
+    --font-size-title-l: 2.625rem; /* 42px */
+    --line-height-title-l: 3.563rem; /* 57px */
+    --font-size-title-m: 2.25rem; /* 36px */
+    --line-height-title-m: 3.063rem; /* 49px */
+    --font-size-title-s: 2rem; /* 32px */
+    --line-height-title-s: 2.688rem; /* 43px */
+
+    --font-size-subtitle-xl: 1.75rem; /* 28px */
+    --line-height-subtitle-xl: 2.375rem; /* 38px */
+    --font-size-subtitle-l: 1.5rem; /* 24px */
+    --line-height-subtitle-l: 2.063rem; /* 33px */
+    --font-size-subtitle-m: 1.25rem; /* 20px */
+    --line-height-subtitle-m: 1.688rem; /* 27px */
+    --font-size-subtitle-s: 1.125rem; /* 18px */
+    --line-height-subtitle-s: 1.5rem; /* 24px */
+
+    --font-size-body-l: 1rem; /* 16px */
+    --line-height-body-l: 1.375rem; /* 22px */
+    --font-size-body-m: 0.875rem; /* 14px */
+    --line-height-body-m: 1.188rem; /* 19px */
+    --font-size-body-s: 0.75rem; /* 12px */
+    --line-height-body-s: 1.063rem; /* 17px */
     /* Color Palette */
-    --color-primary: #007bff;
-    --color-primary-hover: #0056b3;
-    --color-secondary: #6c757d;
-    --color-secondary-hover: #565e64;
     --color-success: #28a745;
     --color-danger: #dc3545;
     --color-warning: #ffc107;
     --color-info: #17a2b8;
     --color-light: #f8f9fa;
-    --color-dark: #343a40;
-    --color-background: #ffffff;
     --color-surface: #f4f6fb;
-    --color-border: #e0e3ea;
-    --color-text: #212529;
     --color-muted: #6c757d;
     --color-disabled: #e9ecef;
+    --color-primary: #e6356f;
+    --color-primary-hover: #c72b5c;
+    --color-secondary: #efefef;
+    --color-secondary-hover: #e0e0e0;
+    --color-dark: #333333;
+    --color-background: #ffffff;
+    --color-border: #c7c7cd;
+    --color-text: #333333;
 
     /* Typography */
     --font-family-base: "Inter", "Avenir", "Helvetica Neue", Arial, sans-serif;

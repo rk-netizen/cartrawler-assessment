@@ -1,14 +1,74 @@
+// Helper: Sort cars by price (asc/desc)
+function sortCars(cars, sortBy) {
+    if (!Array.isArray(cars)) return [];
+    const sorted = [...cars];
+    if (sortBy === "price-asc") {
+        sorted.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "price-desc") {
+        sorted.sort((a, b) => b.price - a.price);
+    }
+    return sorted;
+}
 import { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
-    useNavigate,
     useParams,
+    useNavigate,
 } from "react-router-dom";
-import "./App.css";
-import ResultsList from "./components/shared/ResultsList/ResultsList";
-import CarDetails from "./components/pages/CarDetails";
+import ResultsList from "./components/shared/ResultsList/ResultsList.jsx";
+import CarDetails from "./components/pages/CarDetails.jsx";
+
+// Helper: Map API data to car objects
+function mapApiToCars(data) {
+    console.log("DEBUG raw data:", data);
+    // If data is an array, use the first element (as in the API)
+    if (Array.isArray(data)) {
+        data = data[0];
+    }
+    const cars = [];
+    const vehicleVendorAvails = data?.VehAvailRSCore?.VehVendorAvails;
+    if (!vehicleVendorAvails) return cars;
+    for (const vendor of vehicleVendorAvails) {
+        const vendorName = vendor.Vendor?.["@Name"] || "";
+        const vendorCode = vendor.Vendor?.["@Code"] || "";
+        for (const veh of vendor.VehAvails || []) {
+            const makeModel = veh.Vehicle?.VehMakeModel?.["@Name"] || "";
+            cars.push({
+                id: `${vendorCode || "vendor"}_${
+                    veh.Vehicle?.["@Code"] || Math.random()
+                }`,
+                vendor: vendorName,
+                vendorCode,
+                name: makeModel,
+                code: veh.Vehicle?.["@Code"] || "",
+                transmission: veh.Vehicle?.["@TransmissionType"] || "",
+                fuel: veh.Vehicle?.["@FuelType"] || "",
+                driveType: veh.Vehicle?.["@DriveType"] || "",
+                aircon:
+                    veh.Vehicle?.["@AirConditionInd"] === "true" ? "Yes" : "No",
+                passengerQty: veh.Vehicle?.["@PassengerQuantity"] || "",
+                baggageQty: veh.Vehicle?.["@BaggageQuantity"] || "",
+                doorCount: veh.Vehicle?.["@DoorCount"] || "",
+                makeModel,
+                price: veh.TotalCharge?.["@RateTotalAmount"]
+                    ? parseFloat(veh.TotalCharge["@RateTotalAmount"])
+                    : 0,
+                currency: veh.TotalCharge?.["@CurrencyCode"] || "",
+                pictureUrl: veh.Vehicle?.PictureURL || "",
+                tags: [
+                    { label: vendorName, variant: "primary" },
+                    {
+                        label: veh.Vehicle?.["@TransmissionType"] || "",
+                        variant: "secondary",
+                    },
+                ],
+            });
+        }
+    }
+    return cars;
+}
 
 function App() {
     const [cars, setCars] = useState([]);
@@ -16,6 +76,7 @@ function App() {
     const [error, setError] = useState(null);
     const [sortBy, setSortBy] = useState("price-asc");
 
+    const [legend, setLegend] = useState("");
     useEffect(() => {
         fetch("https://ajaxgeo.cartrawler.com/ctabe/cars.json")
             .then((res) => {
@@ -23,79 +84,20 @@ function App() {
                 return res.json();
             })
             .then((data) => {
-                const root = Array.isArray(data) ? data[0] : data;
-                const cars = [];
-                const core = root.VehAvailRSCore;
-                if (core && Array.isArray(core.VehVendorAvails)) {
-                    core.VehVendorAvails.forEach((vendorObj) => {
-                        const vendorName =
-                            vendorObj.Vendor?.["@Name"] || "Unknown Vendor";
-                        if (Array.isArray(vendorObj.VehAvails)) {
-                            vendorObj.VehAvails.forEach((veh) => {
-                                let carName = veh.Vehicle?.["@Name"];
-                                if (!carName || carName === "Unknown Car") {
-                                    carName = `${vendorName} ${
-                                        veh.Vehicle?.["@Code"] ||
-                                        "No Name Available"
-                                    }`;
-                                }
-                                cars.push({
-                                    id: `${
-                                        vendorObj.Vendor?.["@Code"] || "vendor"
-                                    }_${
-                                        veh.Vehicle?.["@Code"] || Math.random()
-                                    }`,
-                                    vendor: vendorName,
-                                    name: carName,
-                                    code: veh.Vehicle?.["@Code"] || "",
-                                    acriss: veh.Vehicle?.["@AcrissCode"] || "",
-                                    transmission:
-                                        veh.Vehicle?.["@TransmissionType"] ||
-                                        "",
-                                    fuel: veh.Vehicle?.["@FuelType"] || "",
-                                    aircon:
-                                        veh.Vehicle?.["@AirConditionInd"] ===
-                                        "true"
-                                            ? "Yes"
-                                            : "No",
-                                    passengerQty:
-                                        veh.Vehicle?.["@PassengerQuantity"] ||
-                                        "",
-                                    baggageQty:
-                                        veh.Vehicle?.["@BaggageQuantity"] || "",
-                                    doorCount:
-                                        veh.Vehicle?.["@DoorCount"] || "",
-                                    category: veh.Vehicle?.["@Category"] || "",
-                                    price: veh.TotalCharge?.["@RateTotalAmount"]
-                                        ? parseFloat(
-                                              veh.TotalCharge[
-                                                  "@RateTotalAmount"
-                                              ]
-                                          )
-                                        : 0,
-                                    currency:
-                                        veh.TotalCharge?.["@CurrencyCode"] ||
-                                        "",
-                                    tags: [
-                                        {
-                                            label: vendorName,
-                                            variant: "primary",
-                                        },
-                                        {
-                                            label:
-                                                veh.Vehicle?.[
-                                                    "@TransmissionType"
-                                                ] || "",
-                                            variant: "secondary",
-                                        },
-                                    ],
-                                });
-                            });
-                        }
-                    });
+                // Extract legend info
+                let legendStr = "";
+                let d = Array.isArray(data) ? data[0] : data;
+                const rentalCore = d?.VehAvailRSCore?.VehRentalCore;
+                if (rentalCore) {
+                    const pickLoc = rentalCore.PickUpLocation?.["@Name"] || "";
+                    const pickTime = rentalCore["@PickUpDateTime"] || "";
+                    const retTime = rentalCore["@ReturnDateTime"] || "";
+                    legendStr = `${pickLoc} | Pickup: ${pickTime} | Return: ${retTime}`;
                 }
-                cars.sort((a, b) => a.price - b.price);
-                setCars(cars);
+                setLegend(legendStr);
+                const mappedCars = mapApiToCars(data);
+                console.log("DEBUG mappedCars:", mappedCars);
+                setCars(sortCars(mappedCars, "price-asc"));
                 setLoading(false);
             })
             .catch((err) => {
@@ -108,15 +110,7 @@ function App() {
         alert(`Book: ${item.title}`);
     };
 
-    // Sort cars for display based on sortBy
-    let sortedCars = [...cars];
-    if (sortBy === "price-asc") {
-        sortedCars.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "price-desc") {
-        sortedCars.sort((a, b) => b.price - a.price);
-    } else if (sortBy === "vendor-asc") {
-        sortedCars.sort((a, b) => a.vendor.localeCompare(b.vendor));
-    }
+    const sortedCars = sortCars(cars, sortBy);
 
     // Routing logic
     return (
@@ -132,6 +126,21 @@ function App() {
                                 padding: "1em",
                             }}
                         >
+                            {legend && (
+                                <div
+                                    style={{
+                                        marginBottom: "1.5em",
+                                        padding: "0.75em 1em",
+                                        background: "#f4f6fb",
+                                        borderRadius: 8,
+                                        fontWeight: 500,
+                                        fontSize: "1.1em",
+                                        color: "#343a40",
+                                    }}
+                                >
+                                    {legend}
+                                </div>
+                            )}
                             <div
                                 style={{
                                     marginBottom: "1em",
@@ -156,9 +165,9 @@ function App() {
                                     <option value="price-desc">
                                         Price (High to Low)
                                     </option>
-                                    <option value="vendor-asc">
+                                    {/* <option value="vendor-asc">
                                         Vendor (A-Z)
-                                    </option>
+                                    </option> */}
                                 </select>
                             </div>
                             {loading && <div>Loading...</div>}

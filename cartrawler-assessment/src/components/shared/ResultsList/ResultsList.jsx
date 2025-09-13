@@ -1,8 +1,8 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import Card from "../Card/Card";
 import Tag from "../Tag/Tag";
 import Button from "../Button/Button";
+import VendorLogo from "../Logo/VendorLogo";
 import "./ResultsList.css";
 
 // Example item structure, adjust fields as per your PDF/design
@@ -50,11 +50,36 @@ const ResultsList = ({ items, onBook, onCardClick }) => {
                                 : undefined
                         }
                     >
-                        <div className="ct-resultslist__title">{item.name}</div>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.75em",
+                            }}
+                        >
+                            <VendorLogo
+                                name={item.vendor}
+                                alt={item.vendor}
+                                style={{ height: 32, width: "auto" }}
+                            />
+                            <span className="ct-resultslist__title">
+                                {item.name}
+                            </span>
+                        </div>
+                        {item.pictureUrl && (
+                            <div style={{ margin: "1em 0" }}>
+                                <img
+                                    src={item.pictureUrl}
+                                    alt={item.name}
+                                    style={{ maxWidth: 180, borderRadius: 8 }}
+                                />
+                            </div>
+                        )}
                         <div className="ct-resultslist__desc">
                             <strong>Vendor:</strong> {item.vendor} <br />
                             <strong>Code:</strong> {item.code} <br />
-                            <strong>ACRISS:</strong> {item.acriss} <br />
+                            <strong>Make/Model:</strong> {item?.makeModel}{" "}
+                            <br />
                             <strong>Transmission:</strong> {item.transmission}{" "}
                             <br />
                             <strong>Fuel Type:</strong> {item.fuel} <br />
@@ -65,7 +90,8 @@ const ResultsList = ({ items, onBook, onCardClick }) => {
                             <strong>Baggage Quantity:</strong> {item.baggageQty}{" "}
                             <br />
                             <strong>Door Count:</strong> {item.doorCount} <br />
-                            <strong>Category:</strong> {item.category} <br />
+                            <strong>Drive Type:</strong> {item.driveType} <br />
+                            <strong>Price:</strong> {item.price} {item.currency}
                         </div>
                         <div className="ct-resultslist__tags">
                             {item.tags?.map((tag) => (
@@ -85,7 +111,6 @@ const ResultsList = ({ items, onBook, onCardClick }) => {
                         aria-label="Actions"
                         onClick={(e) => e.stopPropagation()}
                         onKeyDown={(e) => {
-                            // Prevent bubbling to card
                             e.stopPropagation();
                         }}
                     >
@@ -98,11 +123,5 @@ const ResultsList = ({ items, onBook, onCardClick }) => {
         </div>
     );
 };
-
-// ResultsList.propTypes = {
-//     items: PropTypes.array.isRequired,
-//     onBook: PropTypes.func.isRequired,
-//     onCardClick: PropTypes.func,
-// };
 
 export default ResultsList;

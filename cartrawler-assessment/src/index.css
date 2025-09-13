@@ -5,11 +5,11 @@ body {
     min-width: 320px;
     min-height: 100vh;
     font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-body-l);
     font-weight: var(--font-weight-regular);
     color: var(--color-text);
     background-color: var(--color-background);
-    line-height: var(--line-height-base);
+    line-height: var(--line-height-body-l);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -22,8 +22,31 @@ h5,
 h6 {
     font-family: var(--font-family-base);
     font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-heading);
     color: var(--color-text);
+}
+h1 {
+    font-size: var(--font-size-title-xl);
+    line-height: var(--line-height-title-xl);
+}
+h2 {
+    font-size: var(--font-size-title-l);
+    line-height: var(--line-height-title-l);
+}
+h3 {
+    font-size: var(--font-size-title-m);
+    line-height: var(--line-height-title-m);
+}
+h4 {
+    font-size: var(--font-size-title-s);
+    line-height: var(--line-height-title-s);
+}
+h5 {
+    font-size: var(--font-size-subtitle-l);
+    line-height: var(--line-height-subtitle-l);
+}
+h6 {
+    font-size: var(--font-size-subtitle-m);
+    line-height: var(--line-height-subtitle-m);
 }
 
 a {

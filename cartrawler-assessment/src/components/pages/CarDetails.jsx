@@ -15,7 +15,7 @@ const CarDetails = ({ car }) => {
                 <strong>Code:</strong> {car.code}
             </p>
             <p>
-                <strong>ACRISS:</strong> {car.acriss}
+                <strong>Drive Type:</strong> {car.driveType}
             </p>
             <p>
                 <strong>Transmission:</strong> {car.transmission}
@@ -36,7 +36,7 @@ const CarDetails = ({ car }) => {
                 <strong>Door Count:</strong> {car.doorCount}
             </p>
             <p>
-                <strong>Category:</strong> {car.category}
+                <strong>Make/Model:</strong> {car.makeModel}
             </p>
             <p>
                 <strong>Price:</strong> {car.price} {car.currency}
