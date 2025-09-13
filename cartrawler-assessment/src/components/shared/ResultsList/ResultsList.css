@@ -1,0 +1,45 @@
+/*
+  ResultsList.css
+  Styles for the ResultsList component using design system variables.
+*/
+
+.ct-resultslist {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.ct-resultslist__card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ct-resultslist__main {
+    flex: 1;
+}
+
+.ct-resultslist__title {
+    font-size: 1.2em;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.25em;
+}
+
+.ct-resultslist__desc {
+    color: var(--secondary-color);
+    margin-bottom: 0.5em;
+}
+
+.ct-resultslist__tags {
+    margin-bottom: 0.5em;
+}
+
+.ct-resultslist__actions {
+    margin-left: 2em;
+}
+
+.ct-resultslist__empty {
+    color: var(--secondary-color);
+    text-align: center;
+    margin: 2em 0;
+}

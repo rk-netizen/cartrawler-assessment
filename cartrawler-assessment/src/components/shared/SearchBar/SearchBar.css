@@ -4,16 +4,16 @@
 */
 
 .ct-searchbar {
-  display: flex;
-  gap: 1em;
-  align-items: center;
-  margin-bottom: 2em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    margin-bottom: 2em;
 }
 
 .ct-searchbar__input {
-  flex: 1;
+    flex: 1;
 }
 
 .ct-searchbar__button {
-  min-width: 100px;
+    min-width: 100px;
 }
