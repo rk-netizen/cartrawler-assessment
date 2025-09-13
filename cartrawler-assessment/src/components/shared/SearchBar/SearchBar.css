@@ -1,0 +1,19 @@
+/*
+  SearchBar.css
+  Styles for the SearchBar component using design system variables.
+*/
+
+.ct-searchbar {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.ct-searchbar__input {
+  flex: 1;
+}
+
+.ct-searchbar__button {
+  min-width: 100px;
+}
