@@ -1,14 +1,3 @@
-// Helper: Sort cars by price (asc/desc)
-function sortCars(cars, sortBy) {
-    if (!Array.isArray(cars)) return [];
-    const sorted = [...cars];
-    if (sortBy === "price-asc") {
-        sorted.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "price-desc") {
-        sorted.sort((a, b) => b.price - a.price);
-    }
-    return sorted;
-}
 import { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
@@ -19,56 +8,7 @@ import {
 } from "react-router-dom";
 import ResultsList from "./components/shared/ResultsList/ResultsList.jsx";
 import CarDetails from "./components/pages/CarDetails.jsx";
-
-// Helper: Map API data to car objects
-function mapApiToCars(data) {
-    console.log("DEBUG raw data:", data);
-    // If data is an array, use the first element (as in the API)
-    if (Array.isArray(data)) {
-        data = data[0];
-    }
-    const cars = [];
-    const vehicleVendorAvails = data?.VehAvailRSCore?.VehVendorAvails;
-    if (!vehicleVendorAvails) return cars;
-    for (const vendor of vehicleVendorAvails) {
-        const vendorName = vendor.Vendor?.["@Name"] || "";
-        const vendorCode = vendor.Vendor?.["@Code"] || "";
-        for (const veh of vendor.VehAvails || []) {
-            const makeModel = veh.Vehicle?.VehMakeModel?.["@Name"] || "";
-            cars.push({
-                id: `${vendorCode || "vendor"}_${
-                    veh.Vehicle?.["@Code"] || Math.random()
-                }`,
-                vendor: vendorName,
-                vendorCode,
-                name: makeModel,
-                code: veh.Vehicle?.["@Code"] || "",
-                transmission: veh.Vehicle?.["@TransmissionType"] || "",
-                fuel: veh.Vehicle?.["@FuelType"] || "",
-                driveType: veh.Vehicle?.["@DriveType"] || "",
-                aircon:
-                    veh.Vehicle?.["@AirConditionInd"] === "true" ? "Yes" : "No",
-                passengerQty: veh.Vehicle?.["@PassengerQuantity"] || "",
-                baggageQty: veh.Vehicle?.["@BaggageQuantity"] || "",
-                doorCount: veh.Vehicle?.["@DoorCount"] || "",
-                makeModel,
-                price: veh.TotalCharge?.["@RateTotalAmount"]
-                    ? parseFloat(veh.TotalCharge["@RateTotalAmount"])
-                    : 0,
-                currency: veh.TotalCharge?.["@CurrencyCode"] || "",
-                pictureUrl: veh.Vehicle?.PictureURL || "",
-                tags: [
-                    { label: vendorName, variant: "primary" },
-                    {
-                        label: veh.Vehicle?.["@TransmissionType"] || "",
-                        variant: "secondary",
-                    },
-                ],
-            });
-        }
-    }
-    return cars;
-}
+import { getLegendInfo, mapApiToCars, sortCars } from "./utils/helpers.js";
 
 function App() {
     const [cars, setCars] = useState([]);
@@ -78,32 +18,28 @@ function App() {
 
     const [legend, setLegend] = useState("");
     useEffect(() => {
-        fetch("https://ajaxgeo.cartrawler.com/ctabe/cars.json")
-            .then((res) => {
+        // Use async/await with Promises for fetch
+        const fetchCars = async () => {
+            try {
+                const res = await fetch(
+                    "https://ajaxgeo.cartrawler.com/ctabe/cars.json"
+                );
                 if (!res.ok) throw new Error("Failed to fetch cars");
-                return res.json();
-            })
-            .then((data) => {
-                // Extract legend info
-                let legendStr = "";
-                let d = Array.isArray(data) ? data[0] : data;
-                const rentalCore = d?.VehAvailRSCore?.VehRentalCore;
-                if (rentalCore) {
-                    const pickLoc = rentalCore.PickUpLocation?.["@Name"] || "";
-                    const pickTime = rentalCore["@PickUpDateTime"] || "";
-                    const retTime = rentalCore["@ReturnDateTime"] || "";
-                    legendStr = `${pickLoc} | Pickup: ${pickTime} | Return: ${retTime}`;
-                }
-                setLegend(legendStr);
+
+                const data = await res.json();
+
+                getLegendInfo(data, setLegend);
+
                 const mappedCars = mapApiToCars(data);
-                console.log("DEBUG mappedCars:", mappedCars);
+
                 setCars(sortCars(mappedCars, "price-asc"));
                 setLoading(false);
-            })
-            .catch((err) => {
+            } catch (err) {
                 setError(err.message);
                 setLoading(false);
-            });
+            }
+        };
+        fetchCars();
     }, []);
 
     const handleBook = (item) => {
