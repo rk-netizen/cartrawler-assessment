@@ -25,8 +25,8 @@ const ResultsList = ({ items, onCardClick }) => {
                         onCardClick ? " ct-resultslist__card--clickable" : ""
                     }`}
                     onClick={onCardClick ? () => onCardClick(item) : undefined}
-                    role={onCardClick ? "button" : undefined}
-                    tabIndex={onCardClick ? 0 : undefined}
+                    role={"button"}
+                    tabIndex={0}
                     onKeyDown={
                         onCardClick
                             ? (e) => handleCardKeyDown(e, item)

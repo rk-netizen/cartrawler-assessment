@@ -36,10 +36,6 @@ function App() {
         fetchCars();
     }, []);
 
-    const handleBook = (item) => {
-        alert(`Book: ${item.title}`);
-    };
-
     const sortedCars = sortCars(cars, sortBy);
 
     // Routing logic
@@ -56,7 +52,6 @@ function App() {
                             loading={loading}
                             error={error}
                             sortedCars={sortedCars}
-                            handleBook={handleBook}
                         />
                     }
                 />

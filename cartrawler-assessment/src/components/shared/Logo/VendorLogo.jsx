@@ -1,5 +1,3 @@
-import React from "react";
-
 import alamo from "../../../assets/vendors/alamo.svg";
 import avis from "../../../assets/vendors/avis.svg";
 import hertz from "../../../assets/vendors/hertz.svg";

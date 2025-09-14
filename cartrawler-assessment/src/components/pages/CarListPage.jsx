@@ -8,7 +8,6 @@ export default function CarListPage({
     loading,
     error,
     sortedCars,
-    handleBook,
 }) {
     return (
         <main className="carlist-main">
@@ -30,7 +29,6 @@ export default function CarListPage({
             {!loading && !error && (
                 <ResultsList
                     items={sortedCars}
-                    onBook={handleBook}
                     onCardClick={(car) => {
                         window.location.href = `/car/${encodeURIComponent(
                             car.id
