@@ -1,77 +1,56 @@
 import React from "react";
 import Card from "../Card/Card";
 import Tag from "../Tag/Tag";
-import Button from "../Button/Button";
 import VendorLogo from "../Logo/VendorLogo";
 import "./ResultsList.css";
 
-// Example item structure, adjust fields as per your PDF/design
-const ResultsList = ({ items, onBook, onCardClick }) => {
+const ResultsList = ({ items, onCardClick }) => {
     if (!items || items.length === 0) {
         return <div className="ct-resultslist__empty">No results found.</div>;
     }
+
+    // Handle keyboard accessibility for card click
+    const handleCardKeyDown = (e, item) => {
+        if (onCardClick && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            onCardClick(item);
+        }
+    };
     return (
         <div className="ct-resultslist">
             {items.map((item) => (
                 <Card
                     key={item.id}
-                    className="ct-resultslist__card"
+                    className={`ct-resultslist__card${
+                        onCardClick ? " ct-resultslist__card--clickable" : ""
+                    }`}
                     onClick={onCardClick ? () => onCardClick(item) : undefined}
-                    style={onCardClick ? { cursor: "pointer" } : undefined}
                     role={onCardClick ? "button" : undefined}
                     tabIndex={onCardClick ? 0 : undefined}
                     onKeyDown={
                         onCardClick
-                            ? (e) => {
-                                  if (e.key === "Enter" || e.key === " ") {
-                                      e.preventDefault();
-                                      onCardClick(item);
-                                  }
-                              }
+                            ? (e) => handleCardKeyDown(e, item)
                             : undefined
                     }
                 >
-                    <div
-                        className="ct-resultslist__main"
-                        tabIndex={onCardClick ? 0 : undefined}
-                        role={onCardClick ? "button" : undefined}
-                        style={onCardClick ? { cursor: "pointer" } : undefined}
-                        onClick={
-                            onCardClick ? () => onCardClick(item) : undefined
-                        }
-                        onKeyDown={
-                            onCardClick
-                                ? (e) => {
-                                      if (e.key === "Enter" || e.key === " ") {
-                                          e.preventDefault();
-                                          onCardClick(item);
-                                      }
-                                  }
-                                : undefined
-                        }
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "0.75em",
-                            }}
-                        >
+                    <div className="ct-resultslist__main">
+                        <div className="ct-resultslist__header">
                             <VendorLogo
                                 name={item.vendor}
                                 alt={item.vendor}
-                                style={{ height: 32, width: "auto" }}
+                                className="ct-resultslist__vendorlogo"
                             />
+
                             <span className="ct-resultslist__title">
                                 {item.name}
                             </span>
                         </div>
                         {item.pictureUrl && (
-                            <div style={{ margin: "1em 0" }}>
+                            <div className="ct-resultslist__image-wrapper">
                                 <img
                                     src={item.pictureUrl}
                                     alt={item.name}
-                                    style={{ maxWidth: 180, borderRadius: 8 }}
+                                    className="ct-resultslist__image"
                                 />
                             </div>
                         )}
@@ -103,20 +82,6 @@ const ResultsList = ({ items, onBook, onCardClick }) => {
                                 </Tag>
                             ))}
                         </div>
-                    </div>
-                    <div
-                        className="ct-resultslist__actions"
-                        role="group"
-                        tabIndex={-1}
-                        aria-label="Actions"
-                        onClick={(e) => e.stopPropagation()}
-                        onKeyDown={(e) => {
-                            e.stopPropagation();
-                        }}
-                    >
-                        <Button variant="primary" onClick={() => onBook(item)}>
-                            Book
-                        </Button>
                     </div>
                 </Card>
             ))}

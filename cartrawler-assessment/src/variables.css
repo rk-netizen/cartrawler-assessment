@@ -1,40 +1,35 @@
-/*
-    variables.css
-    This file defines CSS custom properties (variables) for the color palette, typography, and other design tokens.
-    Using variables ensures consistency, easier updates, and scalability across the project.
-*/
-
 :root {
-    /* CarTrawler Typography */
+    /* Typography */
     --font-family-base: "Open Sans", Arial, sans-serif;
     --font-weight-regular: 400;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
 
-    --font-size-title-xl: 3rem; /* 48px */
-    --line-height-title-xl: 4.063rem; /* 65px */
-    --font-size-title-l: 2.625rem; /* 42px */
-    --line-height-title-l: 3.563rem; /* 57px */
-    --font-size-title-m: 2.25rem; /* 36px */
-    --line-height-title-m: 3.063rem; /* 49px */
-    --font-size-title-s: 2rem; /* 32px */
-    --line-height-title-s: 2.688rem; /* 43px */
+    --font-size-title-xl: 3rem;
+    --line-height-title-xl: 4.063rem;
+    --font-size-title-l: 2.625rem;
+    --line-height-title-l: 3.563rem;
+    --font-size-title-m: 2.25rem;
+    --line-height-title-m: 3.063rem;
+    --font-size-title-s: 2rem;
+    --line-height-title-s: 2.688rem;
 
-    --font-size-subtitle-xl: 1.75rem; /* 28px */
-    --line-height-subtitle-xl: 2.375rem; /* 38px */
-    --font-size-subtitle-l: 1.5rem; /* 24px */
-    --line-height-subtitle-l: 2.063rem; /* 33px */
-    --font-size-subtitle-m: 1.25rem; /* 20px */
-    --line-height-subtitle-m: 1.688rem; /* 27px */
-    --font-size-subtitle-s: 1.125rem; /* 18px */
-    --line-height-subtitle-s: 1.5rem; /* 24px */
+    --font-size-subtitle-xl: 1.75rem;
+    --line-height-subtitle-xl: 2.375rem;
+    --font-size-subtitle-l: 1.5rem;
+    --line-height-subtitle-l: 2.063rem;
+    --font-size-subtitle-m: 1.25rem;
+    --line-height-subtitle-m: 1.688rem;
+    --font-size-subtitle-s: 1.125rem;
+    --line-height-subtitle-s: 1.5rem;
 
-    --font-size-body-l: 1rem; /* 16px */
-    --line-height-body-l: 1.375rem; /* 22px */
-    --font-size-body-m: 0.875rem; /* 14px */
-    --line-height-body-m: 1.188rem; /* 19px */
-    --font-size-body-s: 0.75rem; /* 12px */
-    --line-height-body-s: 1.063rem; /* 17px */
+    --font-size-body-l: 1rem;
+    --line-height-body-l: 1.375rem;
+    --font-size-body-m: 0.875rem;
+    --line-height-body-m: 1.188rem;
+    --font-size-body-s: 0.75rem;
+    --line-height-body-s: 1.063rem;
+
     /* Color Palette */
     --color-success: #28a745;
     --color-danger: #dc3545;
@@ -54,7 +49,7 @@
     --color-text: #333333;
 
     /* Typography */
-    --font-family-base: "Inter", "Avenir", "Helvetica Neue", Arial, sans-serif;
+    /* --font-family-base: "Inter", "Avenir", "Helvetica Neue", Arial, sans-serif;
     --font-size-xs: 12px;
     --font-size-sm: 14px;
     --font-size-base: 16px;
@@ -65,7 +60,7 @@
     --font-weight-medium: 500;
     --font-weight-bold: 700;
     --line-height-base: 1.5;
-    --line-height-heading: 1.2;
+    --line-height-heading: 1.2; */
 
     /* Spacing */
     --spacing-xxs: 2px;

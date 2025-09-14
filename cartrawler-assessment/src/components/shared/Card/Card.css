@@ -5,7 +5,7 @@
 
 .ct-card {
     background: var(--color-background);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-container-border);
     border-radius: var(--radius-md);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     padding: var(--spacing-lg);
