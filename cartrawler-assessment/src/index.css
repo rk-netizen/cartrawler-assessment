@@ -8,7 +8,7 @@ body {
     font-size: var(--font-size-body-l);
     font-weight: var(--font-weight-regular);
     color: var(--color-text);
-    background-color: var(--color-background);
+    background: linear-gradient(120deg, #f8fafc 0%, #dbeafe 50%, #a5b4fc 100%);
     line-height: var(--line-height-body-l);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

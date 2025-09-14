@@ -12,9 +12,32 @@ export function getLegendInfo(data, setLegend) {
         const pickUp = rentalCore.PickUpLocation?.["@Name"] || "";
         const pickTime = rentalCore["@PickUpDateTime"] || "";
         const returnTime = rentalCore["@ReturnDateTime"] || "";
-        legendStr = `${pickUp} | Pickup: ${pickTime} | Return: ${returnTime}`;
+
+        const pickTimeFmt = formatDateTime(pickTime);
+        const returnTimeFmt = formatDateTime(returnTime);
+        legendStr = `${pickUp} | Pickup: ${pickTimeFmt} | Return: ${returnTimeFmt}`;
     }
     return setLegend(legendStr);
+}
+
+// Format ISO date string to readable format
+function formatDateTime(dt) {
+    if (!dt) return "";
+    try {
+        const d = new Date(dt);
+        return new Intl.DateTimeFormat("en-GB", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        })
+            .format(d)
+            .replace(",", "");
+    } catch {
+        return dt;
+    }
 }
 
 // Helper: Sort cars by criteria
